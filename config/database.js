@@ -7,20 +7,23 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
+  ssl: {
+    rejectUnauthorized: false, // Needed for Render’s SSL connection
+  },
 });
 
-// Test database connection
+// Test connection
 pool.connect((err, client, release) => {
   if (err) {
     return console.error('Error acquiring client', err.stack);
   }
-  console.log('Connected to PostgreSQL database');
+  console.log('✅ Connected to PostgreSQL database');
   client.query('SELECT NOW()', (err, result) => {
     release();
     if (err) {
       return console.error('Error executing query', err.stack);
     }
-    console.log('Database connection test successful:', result.rows[0]);
+    console.log('⏰ Database time:', result.rows[0]);
   });
 });
 
