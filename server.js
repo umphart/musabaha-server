@@ -5,7 +5,15 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const Admin = require('./models/Admin');
+const fs = require('fs');
+const path = require('path');
 
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log('Uploads directory created');
+}
 // Load env vars
 dotenv.config();
 
@@ -16,10 +24,9 @@ app.use(helmet());
 
 // CORS middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL,
   credentials: true
 }));
-const path = require("path");
 
 // Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
