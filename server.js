@@ -715,7 +715,22 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
- 
+
+
+app.get('/api/db-test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW() as now, current_database() as db');
+    res.json({ 
+      success: true, 
+      time: result.rows[0].now,
+      database: result.rows[0].db 
+    });
+  } catch (err) {
+    console.error('DB test error:', err);
+    res.status(500).json({ success: false, message: 'DB connection failed', error: err.message });
+  }
+});
+
 // ====================== ERROR HANDLING MIDDLEWARE ======================
 
 // Handle 404 - This should be AFTER all other routes
