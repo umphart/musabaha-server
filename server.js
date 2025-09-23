@@ -25,7 +25,7 @@ app.use(helmet());
 
 const allowedOrigins = [
   "http://localhost:3000", // local dev
-  "https://musabaha-homes.vercel.app", // your deployed frontend
+  "https://musabaha-home-ltd.vercel.app"
 ];
 
 app.use(
@@ -722,7 +722,7 @@ app.get('/api/admin/payments/user/:id', async (req, res) => {
 // ====================== HEALTH CHECK ENDPOINT ======================
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ 
     success: true,
     message: 'Musabaha Homes API server is running!',
