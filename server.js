@@ -23,11 +23,24 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-// CORS middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}));
+const allowedOrigins = [
+  "http://localhost:3000", // local dev
+  "https://musabaha-homes.vercel.app", // your deployed frontend
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 
 // Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
