@@ -7,6 +7,7 @@ const User = require('./models/User');
 const Admin = require('./models/Admin');
 const fs = require('fs');
 const path = require('path');
+const pool = require('./config/database');
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -715,22 +716,24 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
-
-
+// DB connection test endpoint
 app.get('/api/db-test', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW() as now, current_database() as db');
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       time: result.rows[0].now,
-      database: result.rows[0].db 
+      database: result.rows[0].db
     });
   } catch (err) {
     console.error('DB test error:', err);
-    res.status(500).json({ success: false, message: 'DB connection failed', error: err.message });
+    res.status(500).json({
+      success: false,
+      message: 'DB connection failed',
+      error: err.message
+    });
   }
 });
-
 // ====================== ERROR HANDLING MIDDLEWARE ======================
 
 // Handle 404 - This should be AFTER all other routes
