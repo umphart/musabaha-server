@@ -23,8 +23,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-const allowedOrigins = [
-  "http://localhost:3000",
+const allowedOrigins = [// local dev
   "https://musabaha-home-ltd.vercel.app"
 ];
 
