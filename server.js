@@ -24,7 +24,7 @@ const app = express();
 app.use(helmet());
 
 const allowedOrigins = [
-  "http://localhost:5000",
+  "http://localhost:3000",
   "https://musabaha-home-ltd.vercel.app"
 ];
 
